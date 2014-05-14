@@ -1,0 +1,16 @@
+{
+  "name": "pawn-scanner",
+  "version": "0.1.0",
+  "description": "Scan Pawn source files to gather information about functions, variables, constants, macros, and more.",
+  "main": "lib/pawn-scanner.js",
+  "scripts": {
+    "test": "node test/test-pawn-scanner.js"
+  },
+  "keywords": [
+    "pawn",
+    "samp"
+  ],
+  "author": "Oscar Broman",
+  "license": "ISC",
+  "dependencies": {}
+}
