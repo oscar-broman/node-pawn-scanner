@@ -52,7 +52,7 @@ function findFunction(code, expected) {
 function arg(info) {
   return {
     tag: info.tag || null,
-    name: info.name || 'Arg',
+    name: info.name === undefined ? 'Arg' : info.name,
     dim: info.dim || [],
     const: info.const || false,
     ref: info.ref || false,
@@ -92,6 +92,7 @@ findFunction('Function(const Arg1, const Tag:Arg2);', { type: 'function', args: 
 findFunction('Function(&Arg1, &Tag:Arg2);', { type: 'function', args: args([{name: 'Arg1', ref: true}, {name: 'Arg2', ref: true, tag: 'Tag'}]) });
 findFunction('Function(Arg1[], Arg2[][]);', { type: 'function', args: args([{name: 'Arg1', dim: [null]}, {name: 'Arg2', dim: [null, null]}]) });
 findFunction('Function(Arg1[] = "test", Arg2[][] = sizeof(Arg1));', { type: 'function', args: args([{name: 'Arg1', default: '"test"', dim: [null]}, {name: 'Arg2', default: 'sizeof(Arg1)', dim: [null, null]}]) });
+findFunction('Function(Arg1, Tag:Arg2, Float:...);', { type: 'function', args: args([{name: 'Arg1'}, {name: 'Arg2', tag: 'Tag'}, {name: null, tag: 'Float'}]) });
 findFunction('Function(Arg1[128], Arg2[128][]);', { type: 'function', args: args([{name: 'Arg1', dim: [128]}, {name: 'Arg2', dim: [128, null]}]) });
 findFunction('Function(Arg1[128], Arg2[128][E_TEST]);', { type: 'function', args: args([{name: 'Arg1', dim: [128]}, {name: 'Arg2', dim: [128, 'E_TEST']}]) });
 findFunction('Function(Arg1[128], Arg2[128][Test:123*2]);', { type: 'function', args: args([{name: 'Arg1', dim: [128]}, {name: 'Arg2', dim: [128, 'Test:123*2']}]) });
