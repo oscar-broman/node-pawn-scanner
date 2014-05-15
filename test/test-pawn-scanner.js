@@ -29,7 +29,8 @@ function findFunction(code, expected) {
     type: expected.type,
     tag: expected.tag,
     name: expected.name,
-    args: expected.args
+    args: expected.args,
+    addr: expected.addr || null
   }];
 
   try {
@@ -81,8 +82,8 @@ findFunction('forward public Tag:Function();', { forward: true, type: 'public', 
 findFunction('forward stock Tag:Function();', { forward: true, type: 'stock', tag: 'Tag' });
 
 // Function address override
-findFunction('native Function() = OtherFunction;', { type: 'native', address: 'OtherFunction' });
-findFunction('native Function() = -1;', { type: 'native', address: -1 });
+findFunction('native Function() = OtherFunction;', { type: 'native', addr: 'OtherFunction' });
+findFunction('native Function() = -1;', { type: 'native', addr: -1 });
 
 // Arguments
 findFunction('Function(Arg1, Tag:Arg2);', { type: 'function', args: args([{name: 'Arg1'}, {name: 'Arg2', tag: 'Tag'}]) });
