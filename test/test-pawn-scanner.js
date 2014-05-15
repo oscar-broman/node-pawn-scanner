@@ -93,6 +93,7 @@ findFunction('Function(&Arg1, &Tag:Arg2);', { type: 'function', args: args([{nam
 findFunction('Function(Arg1[], Arg2[][]);', { type: 'function', args: args([{name: 'Arg1', dim: [null]}, {name: 'Arg2', dim: [null, null]}]) });
 findFunction('Function(Arg1[] = "test", Arg2[][] = sizeof(Arg1));', { type: 'function', args: args([{name: 'Arg1', default: '"test"', dim: [null]}, {name: 'Arg2', default: 'sizeof(Arg1)', dim: [null, null]}]) });
 findFunction('Function(Arg1, Tag:Arg2, Float:...);', { type: 'function', args: args([{name: 'Arg1'}, {name: 'Arg2', tag: 'Tag'}, {name: null, tag: 'Float'}]) });
+findFunction('Function(Arg1, Tag:Arg2, {Float, _}:...);', { type: 'function', args: args([{name: 'Arg1'}, {name: 'Arg2', tag: 'Tag'}, {name: null, tag: ['Float', '_']}]) });
 findFunction('Function(Arg1[128], Arg2[128][]);', { type: 'function', args: args([{name: 'Arg1', dim: [128]}, {name: 'Arg2', dim: [128, null]}]) });
 findFunction('Function(Arg1[128], Arg2[128][E_TEST]);', { type: 'function', args: args([{name: 'Arg1', dim: [128]}, {name: 'Arg2', dim: [128, 'E_TEST']}]) });
 findFunction('Function(Arg1[128], Arg2[128][Test:123*2]);', { type: 'function', args: args([{name: 'Arg1', dim: [128]}, {name: 'Arg2', dim: [128, 'Test:123*2']}]) });
