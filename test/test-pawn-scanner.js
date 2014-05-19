@@ -35,6 +35,8 @@ function findFunction(code, expected) {
 
   try {
     assert.deepEqual(intel.functions, expected);
+
+    return true;
   } catch (e) {
     console.error(
         'Test failed: ' + code +
@@ -46,6 +48,8 @@ function findFunction(code, expected) {
       '\n   Expected: ' + util.inspect(expected, { depth: null })
         .replace(/\n/g, '\n             ')
     );
+
+    return false;
   }
 }
 
@@ -58,10 +62,6 @@ function arg(info) {
     ref: info.ref || false,
     default: info.default || null
   };
-}
-
-function args(info) {
-  return info.map(arg);
 }
 
 // Basic structure
@@ -86,14 +86,50 @@ findFunction('forward stock Tag:Function();', { forward: true, type: 'stock', ta
 findFunction('native Function() = OtherFunction;', { type: 'native', addr: 'OtherFunction' });
 findFunction('native Function() = -1;', { type: 'native', addr: -1 });
 
-// Arguments
-findFunction('Function(Arg1, Tag:Arg2);', { type: 'function', args: args([{name: 'Arg1'}, {name: 'Arg2', tag: 'Tag'}]) });
-findFunction('Function(const Arg1, const Tag:Arg2);', { type: 'function', args: args([{name: 'Arg1', const: true}, {name: 'Arg2', const: true, tag: 'Tag'}]) });
-findFunction('Function(&Arg1, &Tag:Arg2);', { type: 'function', args: args([{name: 'Arg1', ref: true}, {name: 'Arg2', ref: true, tag: 'Tag'}]) });
-findFunction('Function(Arg1[], Arg2[][]);', { type: 'function', args: args([{name: 'Arg1', dim: [null]}, {name: 'Arg2', dim: [null, null]}]) });
-findFunction('Function(Arg1[] = "test", Arg2[][] = sizeof(Arg1), Arg3[] = {1, 2, 3});', { type: 'function', args: args([{name: 'Arg1', default: '"test"', dim: [null]}, {name: 'Arg2', default: 'sizeof(Arg1)', dim: [null, null]}, {name: 'Arg3', dim: [null], default: '{1, 2, 3}'}]) });
-findFunction('Function(Arg1, Tag:Arg2, Float:...);', { type: 'function', args: args([{name: 'Arg1'}, {name: 'Arg2', tag: 'Tag'}, {name: null, tag: 'Float'}]) });
-findFunction('Function(Arg1, Tag:Arg2, {Float, _}:...);', { type: 'function', args: args([{name: 'Arg1'}, {name: 'Arg2', tag: 'Tag'}, {name: null, tag: ['Float', '_']}]) });
-findFunction('Function(Arg1[128], Arg2[128][]);', { type: 'function', args: args([{name: 'Arg1', dim: [128]}, {name: 'Arg2', dim: [128, null]}]) });
-findFunction('Function(Arg1[128], Arg2[128][E_TEST]);', { type: 'function', args: args([{name: 'Arg1', dim: [128]}, {name: 'Arg2', dim: [128, 'E_TEST']}]) });
-findFunction('Function(Arg1[128], Arg2[128][Test:123*2]);', { type: 'function', args: args([{name: 'Arg1', dim: [128]}, {name: 'Arg2', dim: [128, 'Test:123*2']}]) });
+var args = {
+                  'Arg': {},
+            'const Arg': {const: true},
+              'Tag:Arg': {tag: 'Tag'},
+  '{Tag1, Tag2, _}:Arg': {tag: ['Tag1', 'Tag2', '_']},
+                 '&Arg': {ref: true},
+             '&Tag:Arg': {ref: true, tag: 'Tag'},
+ '&{Tag1, Tag2, _}:Arg': {ref: true, tag: ['Tag1', 'Tag2', '_']},
+                'Arg[]': {dim: [null]},
+              'Arg[][]': {dim: [null, null]},
+            'Arg[][][]': {dim: [null, null, null]},
+               'Arg[1]': {dim: [1]},
+            'Arg[Tag:]': {dim: ['Tag:']},
+            'Arg[1][2]': {dim: [1, 2]},
+         'Arg[1][2][3]': {dim: [1, 2, 3]},
+          'Arg[1][][a]': {dim: [1, null, 'a']},
+              'Arg = 1': {default: '1'},
+      'Arg[] = {1,2,3}': {dim: [null], default: '{1,2,3}'},
+                   '..': {name: null},
+                  '...': {name: null},
+              'Tag:...': {name: null, tag: 'Tag'},
+     '{Tag1, Tag2}:...': {name: null, tag: ['Tag1', 'Tag2']}
+};
+
+var argValues = [];
+var failed = false;
+
+for (var rawArg in args) {
+  args[rawArg] = arg(args[rawArg]);
+
+  if (!findFunction('Function(' + rawArg + ');', {type: 'function', args: [args[rawArg]]})) {
+    failed = true;
+  }
+
+  argValues.push(args[rawArg]);
+}
+
+var rawArgs = Object.keys(args);
+
+// If all individual tests passed, try all args together
+if (!failed) {
+  failed = !findFunction('Function(' + rawArgs.join(',') + ');', {type: 'function', args: argValues});
+}
+
+if (!failed) {
+  failed = !findFunction('Function(' + rawArgs.reverse().join(',') + ');', {type: 'function', args: argValues.reverse()});
+}
