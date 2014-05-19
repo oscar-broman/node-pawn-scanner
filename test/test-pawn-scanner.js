@@ -102,6 +102,7 @@ var args = {
             'Arg[1][2]': {dim: [1, 2]},
          'Arg[1][2][3]': {dim: [1, 2, 3]},
           'Arg[1][][a]': {dim: [1, null, 'a']},
+   'Arg[sieof(test[])]': {dim: ['sieof(test[])']},
               'Arg = 1': {default: '1'},
       'Arg[] = {1,2,3}': {dim: [null], default: '{1,2,3}'},
                    '..': {name: null},
