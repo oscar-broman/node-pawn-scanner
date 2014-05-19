@@ -87,29 +87,30 @@ findFunction('native Function() = OtherFunction;', { type: 'native', addr: 'Othe
 findFunction('native Function() = -1;', { type: 'native', addr: -1 });
 
 var args = {
-                  'Arg': {},
-            'const Arg': {const: true},
-              'Tag:Arg': {tag: 'Tag'},
-  '{Tag1, Tag2, _}:Arg': {tag: ['Tag1', 'Tag2', '_']},
-                 '&Arg': {ref: true},
-             '&Tag:Arg': {ref: true, tag: 'Tag'},
- '&{Tag1, Tag2, _}:Arg': {ref: true, tag: ['Tag1', 'Tag2', '_']},
-                'Arg[]': {dim: [null]},
-              'Arg[][]': {dim: [null, null]},
-            'Arg[][][]': {dim: [null, null, null]},
-               'Arg[1]': {dim: [1]},
-            'Arg[Tag:]': {dim: ['Tag:']},
-            'Arg[1][2]': {dim: [1, 2]},
-         'Arg[1][2][3]': {dim: [1, 2, 3]},
-          'Arg[1][][a]': {dim: [1, null, 'a']},
-   'Arg[sieof(test[])]': {dim: ['sieof(test[])']},
-              'Arg = 1': {default: '1'},
-      'Arg[] = {1,2,3}': {dim: [null], default: '{1,2,3}'},
-                   '..': {name: null},
-                  '...': {name: null},
-              'Tag:...': {name: null, tag: 'Tag'},
-     '{Tag1, Tag2}:...': {name: null, tag: ['Tag1', 'Tag2']}
-};
+                      'Arg': {},
+                'const Arg': {const: true},
+                  'Tag:Arg': {tag: 'Tag'},
+      '{Tag1, Tag2, _}:Arg': {tag: ['Tag1', 'Tag2', '_']},
+                     '&Arg': {ref: true},
+                 '&Tag:Arg': {ref: true, tag: 'Tag'},
+     '&{Tag1, Tag2, _}:Arg': {ref: true, tag: ['Tag1', 'Tag2', '_']},
+                    'Arg[]': {dim: [null]},
+                  'Arg[][]': {dim: [null, null]},
+                'Arg[][][]': {dim: [null, null, null]},
+                   'Arg[1]': {dim: [1]},
+                'Arg[Tag:]': {dim: ['Tag:']},
+                'Arg[1][2]': {dim: [1, 2]},
+             'Arg[1][2][3]': {dim: [1, 2, 3]},
+              'Arg[1][][a]': {dim: [1, null, 'a']},
+       'Arg[sieof(test[])]': {dim: ['sieof(test[])']},
+                  'Arg = 1': {default: '1'},
+      'Arg[][] = {{1},{2}}': {dim: [null], default: '{{1},{2}}'},
+'Arg[][][] = {{{1}},{{2}}}': {dim: [null], default: '{{{1}},{{2}}}'},
+                       '..': {name: null},
+                      '...': {name: null},
+                  'Tag:...': {name: null, tag: 'Tag'},
+         '{Tag1, Tag2}:...': {name: null, tag: ['Tag1', 'Tag2']}
+    };
 
 var argValues = [];
 var failed = false;
