@@ -136,9 +136,9 @@ for (var rawFunc in funcs) {
 for (var rawArg in args) {
   args[rawArg] = arg(args[rawArg]);
 
-  failed = !findFunction('stock Function(' + rawArg + ');', {args: [args[rawArg]]}) || failed;
-  failed = !findFunction('stock Function(' + safeTrim(rawArg) + ');', {args: [args[rawArg]]}) || failed;
-  failed = !findFunction('stock Function(' + doubleSpacing(rawArg) + ');', {args: [args[rawArg]]}) || failed;
+  failed = !findFunction('stock Function(' + rawArg + ');', {args: [args[rawArg]]}) ||
+           !findFunction('stock Function(' + safeTrim(rawArg) + ');', {args: [args[rawArg]]}) ||
+           !findFunction('stock Function(' + doubleSpacing(rawArg) + ');', {args: [args[rawArg]]}) || failed;
 
   argValues.push(args[rawArg]);
 }
