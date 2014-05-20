@@ -23,6 +23,12 @@ if (!stats.isDirectory()) {
   process.exit(1);
 }
 
-var output = pawnScanner.scanDir(process.argv[2]);
+try {
+  var output = pawnScanner.scanDir(process.argv[2]);
 
-console.log(util.inspect(output, { depth: null }));
+  process.stdout.write(JSON.stringify(output));
+} catch (e) {
+  throw e;
+
+  process.exit(1);
+}

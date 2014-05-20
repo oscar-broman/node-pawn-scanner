@@ -15,6 +15,12 @@ if (process.argv.length !== 3) {
 	process.exit(1);
 }
 
-var output = pawnScanner.scanFile(process.argv[2]);
+try {
+  var output = pawnScanner.scanFile(process.argv[2]);
 
-console.log(util.inspect(output, { depth: null }));
+  process.stdout.write(JSON.stringify(output));
+} catch (e) {
+  throw e;
+
+  process.exit(1);
+}
