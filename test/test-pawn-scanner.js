@@ -65,7 +65,6 @@ function arg(info) {
 }
 
 // Basic structure
-findFunction('Function();', { type: 'function' });
 findFunction('stock Function();', { type: 'stock' });
 findFunction('static Function();', { type: 'static' });
 findFunction('public Function();', { type: 'public' });
@@ -74,7 +73,6 @@ findFunction('forward public Function();', { forward: true, type: 'public' });
 findFunction('forward stock Function();', { forward: true, type: 'stock' });
 
 // Return tag
-findFunction('Tag:Function();', { type: 'function', tag: 'Tag' });
 findFunction('stock Tag:Function();', { type: 'stock', tag: 'Tag' });
 findFunction('static Tag:Function();', { type: 'static', tag: 'Tag' });
 findFunction('public Tag:Function();', { type: 'public', tag: 'Tag' });
@@ -119,7 +117,7 @@ var failed = false;
 for (var rawArg in args) {
   args[rawArg] = arg(args[rawArg]);
 
-  if (!findFunction('Function(' + rawArg + ');', {type: 'function', args: [args[rawArg]]})) {
+  if (!findFunction('stock Function(' + rawArg + ');', {type: 'stock', args: [args[rawArg]]})) {
     failed = true;
   }
 
@@ -130,9 +128,9 @@ var rawArgs = Object.keys(args);
 
 // If all individual tests passed, try all args together
 if (!failed) {
-  failed = !findFunction('Function(' + rawArgs.join(',') + ');', {type: 'function', args: argValues});
+  failed = !findFunction('stock Function(' + rawArgs.join(',') + ');', {type: 'stock', args: argValues});
 }
 
 if (!failed) {
-  failed = !findFunction('Function(' + rawArgs.reverse().join(',') + ');', {type: 'function', args: argValues.reverse()});
+  failed = !findFunction('stock Function(' + rawArgs.reverse().join(',') + ');', {type: 'stock', args: argValues.reverse()});
 }
