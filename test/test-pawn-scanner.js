@@ -129,7 +129,9 @@ var args = {
                 ' Arg = \')\' ': {default: '\')\''},
                ' Arg = \');\' ': {default: '\');\''},
             ' Arg = \',Arg=\' ': {default: '\',Arg=\''},
-        ' Arg = \'\\\'a\\\'\' ': {default: '\'\\\'a\\\'\''}
+        ' Arg = \'\\\'a\\\'\' ': {default: '\'\\\'a\\\'\''},
+        ' Arg[][] = {"}","}"} ': {dim: [null, null], default: '{"}","}"}'}
+      ' Arg[] = {\'}\',\'}\'} ': {dim: [null], default: '{\'}\',\'}\'}'}
 };
 
 var argValues = [];
