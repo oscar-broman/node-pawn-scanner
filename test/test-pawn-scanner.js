@@ -66,7 +66,7 @@ function arg(info) {
     dim: info.dim || [],
     const: info.const || false,
     ref: info.ref || false,
-    default: info.default || null
+    def: info.def || null
   };
 }
 
@@ -115,23 +115,23 @@ var args = {
         ' Arg [ 1 ] [ ] [ a ] ': {dim: [1, null, 'a']},
       ' Arg [ sieof(test[]) ] ': {dim: ['sieof(test[])']},
     ' Arg [ sieof(test[][]) ] ': {dim: ['sieof(test[][])']},
-                    ' Arg = 1 ': {default: '1'},
-        ' Arg[][] = {{1},{2}} ': {dim: [null, null], default: '{{1},{2}}'},
-  ' Arg[][][] = {{{1}},{{2}}} ': {dim: [null, null, null], default: '{{{1}},{{2}}}'},
+                    ' Arg = 1 ': {def: '1'},
+        ' Arg[][] = {{1},{2}} ': {dim: [null, null], def: '{{1},{2}}'},
+  ' Arg[][][] = {{{1}},{{2}}} ': {dim: [null, null, null], def: '{{{1}},{{2}}}'},
                          ' .. ': {name: null},
                         ' ... ': {name: null},
                     ' Tag:... ': {name: null, tag: 'Tag'},
            ' {Tag1, Tag2}:... ': {name: null, tag: ['Tag1', 'Tag2']},
-                  ' Arg = ")" ': {default: '")"'},
-                 ' Arg = ");" ': {default: '");"'},
-              ' Arg = ",Arg=" ': {default: '",Arg="'},
-            ' Arg = "\\"a\\"" ': {default: '"\\"a\\""'},
-                ' Arg = \')\' ': {default: '\')\''},
-               ' Arg = \');\' ': {default: '\');\''},
-            ' Arg = \',Arg=\' ': {default: '\',Arg=\''},
-        ' Arg = \'\\\'a\\\'\' ': {default: '\'\\\'a\\\'\''},
-        ' Arg[][] = {"}","}"} ': {dim: [null, null], default: '{"}","}"}'}
-      ' Arg[] = {\'}\',\'}\'} ': {dim: [null], default: '{\'}\',\'}\'}'}
+                  ' Arg = ")" ': {def: '")"'},
+                 ' Arg = ");" ': {def: '");"'},
+              ' Arg = ",Arg=" ': {def: '",Arg="'},
+            ' Arg = "\\"a\\"" ': {def: '"\\"a\\""'},
+                ' Arg = \')\' ': {def: '\')\''},
+               ' Arg = \');\' ': {def: '\');\''},
+            ' Arg = \',Arg=\' ': {def: '\',Arg=\''},
+        ' Arg = \'\\\'a\\\'\' ': {def: '\'\\\'a\\\'\''},
+        ' Arg[][] = {"}","}"} ': {dim: [null, null], def: '{"}","}"}'},
+      ' Arg[] = {\'}\',\'}\'} ': {dim: [null], def: '{\'}\',\'}\'}'}
 };
 
 var argValues = [];
