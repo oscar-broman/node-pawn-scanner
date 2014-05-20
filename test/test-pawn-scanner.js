@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* jshint maxlen: false */
 'use strict';
 
 var util = require('util');
@@ -38,7 +39,7 @@ function findFunction(code, expected, argsOverride) {
   try {
     assert.deepEqual(intel.functions, expected);
 
-    numSuccess++;
+    numSuccess += 1;
 
     return true;
   } catch (e) {
@@ -53,7 +54,7 @@ function findFunction(code, expected, argsOverride) {
         .replace(/\n/g, '\n             ')
     );
 
-    numFail++;
+    numFail += 1;
 
     return false;
   }
@@ -78,6 +79,10 @@ function safeTrim(str) {
 
 function doubleSpacing(str) {
   return str.replace(/ /g, '  ');
+}
+
+function nlSpacing(str) {
+  return str.replace(/ /g, '\n');
 }
 
 var funcs = {
@@ -148,7 +153,8 @@ for (var rawArg in args) {
 
   failed = !findFunction('stock Function(' + rawArg + ');', {args: [args[rawArg]]}) ||
            !findFunction('stock Function(' + safeTrim(rawArg) + ');', {args: [args[rawArg]]}) ||
-           !findFunction('stock Function(' + doubleSpacing(rawArg) + ');', {args: [args[rawArg]]}) || failed;
+           !findFunction('stock Function(' + doubleSpacing(rawArg) + ');', {args: [args[rawArg]]}) ||
+           !findFunction('stock Function(' + nlSpacing(rawArg) + ');', {args: [args[rawArg]]}) || failed;
 
   argValues.push(args[rawArg]);
 }
@@ -159,6 +165,7 @@ for (var rawArg in args) {
     failed = failed || !findFunction(rawFunc.replace('$A', rawArg), funcs[rawFunc], [args[rawArg]]);
     failed = failed || !findFunction(safeTrim(rawFunc.replace('$A', rawArg)), funcs[rawFunc], [args[rawArg]]);
     failed = failed || !findFunction(doubleSpacing(rawFunc.replace('$A', rawArg)), funcs[rawFunc], [args[rawArg]]);
+    failed = failed || !findFunction(nlSpacing(rawFunc.replace('$A', rawArg)), funcs[rawFunc], [args[rawArg]]);
   }
 }
 
@@ -172,6 +179,8 @@ for (var rawFunc in funcs) {
   failed = failed || !findFunction(safeTrim(rawFunc.replace('$A', rawArgs.reverse().join(','))), funcs[rawFunc], argValues.reverse());
   failed = failed || !findFunction(doubleSpacing(rawFunc.replace('$A', rawArgs.join(','))), funcs[rawFunc], argValues);
   failed = failed || !findFunction(doubleSpacing(rawFunc.replace('$A', rawArgs.reverse().join(','))), funcs[rawFunc], argValues.reverse());
+  failed = failed || !findFunction(nlSpacing(rawFunc.replace('$A', rawArgs.join(','))), funcs[rawFunc], argValues);
+  failed = failed || !findFunction(nlSpacing(rawFunc.replace('$A', rawArgs.reverse().join(','))), funcs[rawFunc], argValues.reverse());
 }
 
 console.log('Ran ' + (numSuccess + numFail) + ' tests. ' + numFail + ' failed.');
