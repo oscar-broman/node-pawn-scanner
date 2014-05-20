@@ -121,7 +121,15 @@ var args = {
                          ' .. ': {name: null},
                         ' ... ': {name: null},
                     ' Tag:... ': {name: null, tag: 'Tag'},
-           ' {Tag1, Tag2}:... ': {name: null, tag: ['Tag1', 'Tag2']}
+           ' {Tag1, Tag2}:... ': {name: null, tag: ['Tag1', 'Tag2']},
+                  ' Arg = ")" ': {default: '")"'},
+                 ' Arg = ");" ': {default: '");"'},
+              ' Arg = ",Arg=" ': {default: '",Arg="'},
+            ' Arg = "\\"a\\"" ': {default: '"\\"a\\""'},
+                ' Arg = \')\' ': {default: '\')\''},
+               ' Arg = \');\' ': {default: '\');\''},
+            ' Arg = \',Arg=\' ': {default: '\',Arg=\''},
+        ' Arg = \'\\\'a\\\'\' ': {default: '\'\\\'a\\\'\''}
 };
 
 var argValues = [];
