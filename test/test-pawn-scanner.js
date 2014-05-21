@@ -37,6 +37,14 @@ function findFunction(code, expected, argsOverride) {
   }];
 
   try {
+    intel.functions.forEach(function(func) {
+      delete func.line;
+
+      func.args.forEach(function(arg) {
+        delete arg.line;
+      });
+    });
+
     assert.deepEqual(intel.functions, expected);
 
     numSuccess += 1;
