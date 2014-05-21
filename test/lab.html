@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>node-pawn-scanner</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    #input,
+    #output {
+      display: block;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 100%;
+      height: 50%;
+      outline: none;
+      margin: 0;
+      padding: 10px;
+      border: none;
+      font: 10pt monospace;
+    }
+
+    #output {
+      background: #ededed;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <textarea id="input" autofocus></textarea>
+  <pre id="output"></pre>
+
+  <script src="../lib/pawn-scanner.js"></script>
+  <script src="lab.js"></script>
+</body>
+</html>
